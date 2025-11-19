@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Badge Pinball</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cabinet">
+        <div class="backglass">
+            <div class="backglass-inner">
+                <div class="title-crest">
+                    <div class="title-row">
+                        <h1>Gym Badge Pinball</h1>
+                        <span class="version-tag">v1.2</span>
+                    </div>
+                    <p>Light every elemental badge to become Champion</p>
+                </div>
+                <div class="scoreboard" id="hud">
+                    <div class="hud-item">
+                        <span class="label">Score</span>
+                        <span id="score" class="value">0</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="label">Multiplier</span>
+                        <span id="multiplier" class="value">1.0x</span>
+                    </div>
+                    <div class="hud-item">
+                        <span class="label">Ball</span>
+                        <span id="balls" class="value">3 / 3</span>
+                    </div>
+                    <button id="helpButton" class="help-button" aria-haspopup="dialog" aria-controls="helpPanel">
+                        Help
+                    </button>
+                </div>
+                <div class="badge-marquee">
+                    <div class="badge-marquee-title">Elemental Badges</div>
+                    <section id="badges" class="badge-row"></section>
+                </div>
+            </div>
+        </div>
+        <main>
+            <div class="table-frame">
+                <div class="rail left-rail"></div>
+                <div class="rail right-rail"></div>
+                <canvas id="game" width="800" height="1000"></canvas>
+                <div id="overlay" class="hidden"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="helpPanel" class="help-panel hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="help-content">
+            <div class="help-header">
+                <h2 id="helpTitle">How to Play</h2>
+                <button id="closeHelp" class="close-help" aria-label="Close help">×</button>
+            </div>
+            <p>Fill each elemental badge by hitting its matching shot. Three hits lights a badge and boosts your multiplier. Light all eight to claim the Champion Bonus!</p>
+            <ul>
+                <li><strong>Spacebar</strong> – Launch ball / advance prompts</li>
+                <li><strong>Left Shift</strong> – Left flipper</li>
+                <li><strong>Right Shift</strong> – Right flipper</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="physics.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
