@@ -25,8 +25,12 @@ class Flipper {
         this.pivot = { x, y };
         this.length = 120;
         this.width = 14;
-        this.baseAngle = direction === 'left' ? Math.PI * 0.8 : Math.PI * 0.2;
-        this.activeAngle = direction === 'left' ? Math.PI * 1.1 : Math.PI * -0.1;
+        const leftBase = 25 * Math.PI / 180;
+        const leftActive = -45 * Math.PI / 180;
+        const rightBase = 155 * Math.PI / 180;
+        const rightActive = 215 * Math.PI / 180;
+        this.baseAngle = direction === 'left' ? leftBase : rightBase;
+        this.activeAngle = direction === 'left' ? leftActive : rightActive;
         this.currentAngle = this.baseAngle;
         this.direction = direction;
         this.speed = 7;
@@ -79,20 +83,33 @@ class Flipper {
     }
 }
 
-function bounceWalls(ball, width, height) {
-    const padding = 20;
-    if (ball.x - ball.radius < padding) {
-        ball.x = padding + ball.radius;
-        ball.vx = Math.abs(ball.vx) * 0.9;
-    }
-    if (ball.x + ball.radius > width - padding) {
-        ball.x = width - padding - ball.radius;
-        ball.vx = -Math.abs(ball.vx) * 0.9;
-    }
-    if (ball.y - ball.radius < padding) {
-        ball.y = padding + ball.radius;
-        ball.vy = Math.abs(ball.vy);
-    }
+function bounceOffSegments(ball, segments, restitution = 0.9) {
+    segments.forEach(segment => {
+        const dx = segment.x2 - segment.x1;
+        const dy = segment.y2 - segment.y1;
+        const lengthSq = dx * dx + dy * dy;
+        if (lengthSq === 0) return;
+        const t = ((ball.x - segment.x1) * dx + (ball.y - segment.y1) * dy) / lengthSq;
+        const clamped = Math.max(0, Math.min(1, t));
+        const closestX = segment.x1 + clamped * dx;
+        const closestY = segment.y1 + clamped * dy;
+        const distX = ball.x - closestX;
+        const distY = ball.y - closestY;
+        const distSq = distX * distX + distY * distY;
+        const radius = ball.radius + (segment.buffer || 0);
+        if (distSq <= radius * radius) {
+            const dist = Math.sqrt(distSq) || 0.0001;
+            const nx = distX / dist;
+            const ny = distY / dist;
+            ball.x = closestX + nx * radius;
+            ball.y = closestY + ny * radius;
+            const relVel = ball.vx * nx + ball.vy * ny;
+            if (relVel < 0) {
+                ball.vx -= (1 + restitution) * relVel * nx;
+                ball.vy -= (1 + restitution) * relVel * ny;
+            }
+        }
+    });
 }
 
 function circleCollision(ball, circle) {

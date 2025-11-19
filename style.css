@@ -6,10 +6,11 @@
 body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(135deg, #020308 10%, #101531 90%);
-    background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08), transparent 40%),
-        radial-gradient(circle at 80% 0%, rgba(255,255,255,0.04), transparent 40%),
-        linear-gradient(45deg, rgba(255,255,255,0.04) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.04) 75%, transparent 75%, transparent);
+    background-color: #1b1207;
+    background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 40%),
+        radial-gradient(circle at 80% 0%, rgba(255,255,255,0.04), transparent 35%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 2px, transparent 2px, transparent 6px),
+        linear-gradient(135deg, #2d190a, #1b0d05 55%);
     color: #f5f7ff;
     display: flex;
     align-items: center;
@@ -29,22 +30,22 @@ body {
     width: 100%;
     padding: 12px;
     border-radius: 22px;
-    background: linear-gradient(180deg, #20263f, #0c0f1f 70%);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.6);
-    border: 4px solid #59658f;
+    background: linear-gradient(180deg, #443019, #1b1005 70%);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.7), inset 0 0 30px rgba(0,0,0,0.6);
+    border: 4px solid #d6b37a;
 }
 
 .backglass-inner {
     border-radius: 16px;
     padding: 20px;
-    background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.25), transparent 55%), #15182b;
-    border: 2px solid rgba(255,255,255,0.1);
+    background: radial-gradient(circle at 40% 20%, rgba(255,255,255,0.2), transparent 60%), #1a1208;
+    border: 2px solid rgba(255,255,255,0.15);
 }
 
 .title-crest {
     text-align: center;
     padding: 12px 0 18px;
-    color: #fffcf4;
+    color: #fff7d6;
     text-transform: uppercase;
     letter-spacing: 4px;
 }
@@ -69,7 +70,7 @@ body {
 .title-crest h1 {
     margin: 0;
     font-size: 2.4rem;
-    text-shadow: 0 0 18px rgba(255, 214, 0, 0.35);
+    text-shadow: 0 4px 20px rgba(0,0,0,0.6);
 }
 
 .title-crest p {
@@ -85,19 +86,19 @@ body {
     gap: 18px;
     padding: 14px;
     border-radius: 12px;
-    background: linear-gradient(120deg, #070a16, #0f182b);
-    border: 3px solid rgba(255,255,255,0.08);
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    background: linear-gradient(135deg, #281c0c, #0b0702);
+    border: 3px solid rgba(255,213,152,0.35);
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.6);
 }
 
 .hud-item {
     flex: 1;
     text-align: center;
-    background: radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(255,255,255,0));
+    background: radial-gradient(circle at top, rgba(255,216,122,0.2), rgba(80,44,12,0.65));
     border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
     padding: 10px 6px 14px;
-    box-shadow: inset 0 -4px 10px rgba(0,0,0,0.4);
+    box-shadow: inset 0 -4px 10px rgba(0,0,0,0.5);
 }
 
 .hud-item .label {
@@ -118,8 +119,8 @@ body {
 .help-button {
     align-self: center;
     border: 1px solid rgba(255,255,255,0.4);
-    background: linear-gradient(180deg, #1f2d4a, #0a0f1d);
-    color: #f5f7ff;
+    background: linear-gradient(180deg, #b54100, #5f2100);
+    color: #fff7d6;
     border-radius: 999px;
     padding: 10px 20px;
     font-size: 0.95rem;
@@ -139,8 +140,8 @@ body {
     margin-top: 18px;
     border-radius: 12px;
     padding: 14px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
-    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+    border: 1px solid rgba(255,255,255,0.15);
     box-shadow: inset 0 10px 18px rgba(0,0,0,0.55);
 }
 
@@ -162,7 +163,7 @@ body {
     height: 74px;
     border-radius: 12px;
     padding: 6px 8px;
-    background: rgba(4,9,20,0.8);
+    background: rgba(18,26,12,0.85);
     border: 2px solid rgba(255,255,255,0.12);
     display: flex;
     flex-direction: column;
@@ -212,11 +213,11 @@ main {
 
 .table-frame {
     position: relative;
-    padding: 18px;
-    border-radius: 30px;
-    background: linear-gradient(180deg, #2c324b, #04050c 80%);
-    box-shadow: 0 25px 45px rgba(0,0,0,0.8);
-    border: 6px solid #4e5d8a;
+    padding: 22px;
+    border-radius: 38px;
+    background: linear-gradient(180deg, #5c3c1b, #2d1c0c 70%);
+    box-shadow: 0 30px 55px rgba(0,0,0,0.9);
+    border: 8px solid #f5d48d;
 }
 
 .help-panel {
@@ -237,7 +238,7 @@ main {
 .help-content {
     max-width: 420px;
     width: 100%;
-    background: linear-gradient(180deg, #1a2139, #05060c);
+    background: linear-gradient(180deg, #312315, #130b05);
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 18px;
     box-shadow: 0 25px 45px rgba(0,0,0,0.7);
@@ -280,41 +281,41 @@ main {
 
 .rail {
     position: absolute;
-    top: 12px;
-    bottom: 12px;
-    width: 14px;
-    border-radius: 14px;
-    background: linear-gradient(90deg, #9fb6cf, #65708c);
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+    top: 18px;
+    bottom: 18px;
+    width: 18px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #e4d2a4, #8a5f28);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 .left-rail {
-    left: 6px;
+    left: 8px;
 }
 
 .right-rail {
-    right: 6px;
+    right: 8px;
 }
 
 #game {
     display: block;
-    border-radius: 22px;
-    border: 4px solid #c6d4f7;
-    background: linear-gradient(#030409, #0a1a2e 60%, #040815);
+    border-radius: 28px;
+    border: 6px solid #f5d48d;
+    background: #05321f;
 }
 
 #overlay {
     position: absolute;
-    inset: 18px;
+    inset: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-size: 2rem;
-    background: rgba(3,6,12,0.65);
+    background: rgba(5,10,8,0.65);
     color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.25);
 }
 
 .hidden {
