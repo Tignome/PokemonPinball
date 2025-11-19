@@ -49,6 +49,23 @@ body {
     letter-spacing: 4px;
 }
 
+.title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.version-tag {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0));
+    text-shadow: none;
+}
+
 .title-crest h1 {
     margin: 0;
     font-size: 2.4rem;
@@ -96,6 +113,26 @@ body {
     font-size: 1.4rem;
     letter-spacing: 1px;
     color: #f9f9ff;
+}
+
+.help-button {
+    align-self: center;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: linear-gradient(180deg, #1f2d4a, #0a0f1d);
+    color: #f5f7ff;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.help-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.45);
 }
 
 .badge-marquee {
@@ -180,6 +217,65 @@ main {
     background: linear-gradient(180deg, #2c324b, #04050c 80%);
     box-shadow: 0 25px 45px rgba(0,0,0,0.8);
     border: 6px solid #4e5d8a;
+}
+
+.help-panel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 4, 12, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 5;
+}
+
+.help-panel.hidden {
+    display: none;
+}
+
+.help-content {
+    max-width: 420px;
+    width: 100%;
+    background: linear-gradient(180deg, #1a2139, #05060c);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 18px;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.7);
+    padding: 20px 24px 26px;
+}
+
+.help-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.help-header h2 {
+    margin: 0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.close-help {
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.help-content p {
+    margin: 0 0 10px;
+    color: rgba(255,255,255,0.8);
+}
+
+.help-content ul {
+    margin: 0;
+    padding-left: 18px;
+    color: rgba(255,255,255,0.85);
 }
 
 .rail {

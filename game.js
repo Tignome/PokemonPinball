@@ -5,6 +5,9 @@ const scoreEl = document.getElementById('score');
 const multiplierEl = document.getElementById('multiplier');
 const ballsEl = document.getElementById('balls');
 const badgesEl = document.getElementById('badges');
+const helpButton = document.getElementById('helpButton');
+const helpPanel = document.getElementById('helpPanel');
+const closeHelp = document.getElementById('closeHelp');
 
 const GAME_STATES = {
     TITLE: 'TITLE',
@@ -52,6 +55,20 @@ showMessage('TITLE', 'Gym Badge Pinball', 'Press Space to Start');
 
 let lastTime = 0;
 requestAnimationFrame(loop);
+
+helpButton.addEventListener('click', () => {
+    helpPanel.classList.remove('hidden');
+});
+
+closeHelp.addEventListener('click', () => {
+    helpPanel.classList.add('hidden');
+});
+
+helpPanel.addEventListener('click', e => {
+    if (e.target === helpPanel) {
+        helpPanel.classList.add('hidden');
+    }
+});
 
 function createShots() {
     const leftOrbit = new Path2D();
@@ -530,6 +547,9 @@ window.addEventListener('keydown', e => {
     }
     if (e.code === 'ShiftRight') {
         rightFlipper.setActive(true);
+    }
+    if (e.code === 'Escape') {
+        helpPanel.classList.add('hidden');
     }
 });
 

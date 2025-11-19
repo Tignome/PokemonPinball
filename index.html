@@ -11,7 +11,10 @@
         <div class="backglass">
             <div class="backglass-inner">
                 <div class="title-crest">
-                    <h1>Gym Badge Pinball</h1>
+                    <div class="title-row">
+                        <h1>Gym Badge Pinball</h1>
+                        <span class="version-tag">v1.1</span>
+                    </div>
                     <p>Light every elemental badge to become Champion</p>
                 </div>
                 <div class="scoreboard" id="hud">
@@ -27,6 +30,9 @@
                         <span class="label">Ball</span>
                         <span id="balls" class="value">3 / 3</span>
                     </div>
+                    <button id="helpButton" class="help-button" aria-haspopup="dialog" aria-controls="helpPanel">
+                        Help
+                    </button>
                 </div>
                 <div class="badge-marquee">
                     <div class="badge-marquee-title">Elemental Badges</div>
@@ -42,6 +48,21 @@
                 <div id="overlay" class="hidden"></div>
             </div>
         </main>
+    </div>
+
+    <div id="helpPanel" class="help-panel hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="help-content">
+            <div class="help-header">
+                <h2 id="helpTitle">How to Play</h2>
+                <button id="closeHelp" class="close-help" aria-label="Close help">×</button>
+            </div>
+            <p>Fill each elemental badge by hitting its matching shot. Three hits lights a badge and boosts your multiplier. Light all eight to claim the Champion Bonus!</p>
+            <ul>
+                <li><strong>Spacebar</strong> – Launch ball / advance prompts</li>
+                <li><strong>Left Shift</strong> – Left flipper</li>
+                <li><strong>Right Shift</strong> – Right flipper</li>
+            </ul>
+        </div>
     </div>
 
     <script src="audio.js"></script>
