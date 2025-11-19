@@ -293,86 +293,204 @@ function render() {
 }
 
 function drawTable() {
-    ctx.strokeStyle = '#4a6fa5';
-    ctx.lineWidth = 6;
-    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
-    ctx.fillStyle = '#0a0f1a';
-    ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
+    ctx.save();
+    const playfield = new Path2D();
+    playfield.moveTo(130, 60);
+    playfield.quadraticCurveTo(70, 200, 80, 420);
+    playfield.lineTo(110, canvas.height - 200);
+    playfield.quadraticCurveTo(190, canvas.height - 40, 400, canvas.height - 30);
+    playfield.quadraticCurveTo(610, canvas.height - 40, 690, canvas.height - 200);
+    playfield.lineTo(720, 200);
+    playfield.quadraticCurveTo(730, 90, 640, 40);
+    playfield.closePath();
 
-    ctx.fillStyle = '#0f1b2d';
-    ctx.fillRect(40, 40, canvas.width - 80, canvas.height - 160);
+    const baseGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    baseGradient.addColorStop(0, '#11294a');
+    baseGradient.addColorStop(0.5, '#082035');
+    baseGradient.addColorStop(1, '#030812');
+    ctx.fillStyle = baseGradient;
+    ctx.fill(playfield);
 
-    ctx.fillStyle = '#132640';
+    ctx.clip(playfield);
+    const glowGradient = ctx.createRadialGradient(400, 240, 40, 400, 240, 420);
+    glowGradient.addColorStop(0, 'rgba(255,255,255,0.18)');
+    glowGradient.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glowGradient;
+    ctx.fillRect(60, 40, 680, 760);
+    ctx.restore();
+
+    ctx.save();
+    ctx.strokeStyle = '#c7d9ff';
+    ctx.lineWidth = 8;
+    ctx.stroke(playfield);
+    ctx.restore();
+
+    // apron
+    ctx.save();
+    ctx.fillStyle = '#091120';
     ctx.beginPath();
-    ctx.moveTo(100, canvas.height - 60);
-    ctx.lineTo(canvas.width - 100, canvas.height - 60);
-    ctx.lineTo(canvas.width - 200, canvas.height - 20);
-    ctx.lineTo(200, canvas.height - 20);
+    ctx.moveTo(150, canvas.height - 80);
+    ctx.quadraticCurveTo(400, canvas.height - 10, canvas.width - 150, canvas.height - 80);
+    ctx.lineTo(canvas.width - 220, canvas.height - 20);
+    ctx.quadraticCurveTo(400, canvas.height + 40, 220, canvas.height - 20);
     ctx.closePath();
     ctx.fill();
+    ctx.strokeStyle = '#546c9d';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.restore();
+
+    // plunger lane
+    ctx.save();
+    ctx.fillStyle = '#1b263d';
+    ctx.fillRect(canvas.width - 110, 60, 70, canvas.height - 220);
+    const railGradient = ctx.createLinearGradient(canvas.width - 70, 60, canvas.width - 70, canvas.height);
+    railGradient.addColorStop(0, '#8fb0d7');
+    railGradient.addColorStop(1, '#576280');
+    ctx.strokeStyle = railGradient;
+    ctx.lineWidth = 6;
+    ctx.strokeRect(canvas.width - 110, 60, 70, canvas.height - 220);
+    ctx.restore();
+
+    drawTopArch();
+    drawLaneLights();
+}
+
+function drawTopArch() {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(120, 80);
+    ctx.quadraticCurveTo(400, 10, 680, 80);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.beginPath();
+    ctx.moveTo(140, 110);
+    ctx.quadraticCurveTo(400, 30, 660, 110);
+    ctx.stroke();
+    ctx.restore();
+}
+
+function drawLaneLights() {
+    const inserts = [
+        { x: 140, y: 640, color: '#ff4c40' },
+        { x: 660, y: 640, color: '#4dc0ff' },
+        { x: 230, y: 420, color: '#3fc04d' },
+        { x: 570, y: 420, color: '#ffd447' }
+    ];
+    inserts.forEach(light => {
+        const gradient = ctx.createRadialGradient(light.x, light.y, 5, light.x, light.y, 35);
+        gradient.addColorStop(0, `${light.color}cc`);
+        gradient.addColorStop(1, `${light.color}00`);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(light.x, light.y, 35, 0, Math.PI * 2);
+        ctx.fill();
+    });
 }
 
 function drawShots() {
     shots.forEach(shot => {
-        ctx.globalAlpha = 0.8;
-        ctx.fillStyle = shot.color;
-        if (shot.path) {
-            ctx.fill(shot.path);
-        }
+        if (!shot.path) return;
+        ctx.save();
+        const progress = badgeProgress[shot.badge] || 0;
+        const intensity = progress / 3;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 120);
+        gradient.addColorStop(0, `${shot.color}55`);
+        gradient.addColorStop(1, shot.color);
+        ctx.fillStyle = gradient;
+        ctx.shadowColor = `${shot.color}${Math.floor(120 + 80 * intensity).toString(16)}`;
+        ctx.shadowBlur = 25 * intensity;
+        ctx.globalAlpha = 0.85;
+        ctx.fill(shot.path);
         ctx.globalAlpha = 1;
-        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-        ctx.lineWidth = 2;
-        if (shot.path) ctx.stroke(shot.path);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = `rgba(255,255,255,${0.2 + intensity * 0.6})`;
+        ctx.stroke(shot.path);
+        ctx.restore();
     });
 }
 
 function drawBashTarget() {
+    const progress = badgeProgress['rock'] / 3;
+    const outer = ctx.createRadialGradient(bashTarget.x, bashTarget.y, 10, bashTarget.x, bashTarget.y, 40);
+    outer.addColorStop(0, `rgba(255,255,255,${0.3 + progress * 0.6})`);
+    outer.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = outer;
     ctx.beginPath();
-    ctx.fillStyle = '#777';
+    ctx.arc(bashTarget.x, bashTarget.y, 40, 0, Math.PI * 2);
+    ctx.fill();
+
+    const metallic = ctx.createRadialGradient(bashTarget.x - 8, bashTarget.y - 8, 5, bashTarget.x, bashTarget.y, bashTarget.radius);
+    metallic.addColorStop(0, '#f1f2f3');
+    metallic.addColorStop(0.6, '#9b9ea8');
+    metallic.addColorStop(1, '#4f5159');
+    ctx.fillStyle = metallic;
+    ctx.beginPath();
     ctx.arc(bashTarget.x, bashTarget.y, bashTarget.radius, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = '#e3e3e3';
+    ctx.lineWidth = 3;
     ctx.stroke();
 }
 
 function drawCreatures() {
-    const silhouettes = [
-        { x: 150, y: 500, color: '#ff4c40' },
-        { x: 650, y: 500, color: '#ffd447' },
-        { x: 220, y: 150, color: '#c98b45' },
-        { x: 580, y: 150, color: '#ff93d3' }
+    const guardians = [
+        { x: 200, y: 520, color: '#ff4c40', mirror: false },
+        { x: 600, y: 520, color: '#ffd447', mirror: true },
+        { x: 250, y: 200, color: '#c98b45', mirror: false },
+        { x: 550, y: 200, color: '#ff93d3', mirror: true }
     ];
-    silhouettes.forEach(creature => {
-        ctx.fillStyle = creature.color;
+    guardians.forEach(g => {
+        ctx.save();
+        ctx.translate(g.x, g.y);
+        if (g.mirror) ctx.scale(-1, 1);
+        ctx.fillStyle = g.color;
         ctx.beginPath();
-        ctx.arc(creature.x, creature.y, 20, 0, Math.PI * 2);
+        ctx.moveTo(-25, 20);
+        ctx.quadraticCurveTo(-40, -20, 0, -50);
+        ctx.quadraticCurveTo(40, -20, 25, 20);
+        ctx.quadraticCurveTo(0, 10, -25, 20);
         ctx.fill();
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
         ctx.beginPath();
-        ctx.arc(creature.x - 10, creature.y - 10, 8, 0, Math.PI * 2);
-        ctx.arc(creature.x + 10, creature.y - 10, 8, 0, Math.PI * 2);
+        ctx.ellipse(-10, -20, 8, 12, 0, 0, Math.PI * 2);
+        ctx.ellipse(10, -20, 8, 12, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
     });
 }
 
 function drawBall() {
+    const shine = ctx.createRadialGradient(ball.x - 4, ball.y - 4, 2, ball.x, ball.y, ball.radius);
+    shine.addColorStop(0, '#ffffff');
+    shine.addColorStop(0.5, '#d5d5d5');
+    shine.addColorStop(1, '#7f879c');
+    ctx.fillStyle = shine;
     ctx.beginPath();
-    ctx.fillStyle = '#fefefe';
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = '#aaa';
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 }
 
 function drawFlippers() {
     [leftFlipper, rightFlipper].forEach(flip => {
         const { pivot, tip } = flip.getEndpoints();
-        ctx.strokeStyle = '#f5f5f5';
-        ctx.lineWidth = flip.width;
+        ctx.save();
+        const gradient = ctx.createLinearGradient(pivot.x, pivot.y, tip.x, tip.y);
+        gradient.addColorStop(0, '#fefefe');
+        gradient.addColorStop(1, '#c2c8d8');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = flip.width + 4;
         ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(pivot.x, pivot.y);
         ctx.lineTo(tip.x, tip.y);
         ctx.stroke();
+        ctx.restore();
     });
 }
 
